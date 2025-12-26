@@ -8,14 +8,7 @@ import Pagination from "@/components/pagination";
 import SearchInput from "@/components/search-input";
 import { useDebouncedSearch } from "@/hooks/use-debounced-search";
 import { Product } from "@/lib/types/products";
-
-
-interface ProductsResponse {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
+import { getProducts } from "@/lib/api/products";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -44,11 +37,7 @@ export default function Products() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("https://dummyjson.com/products");
-      if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      const data: ProductsResponse = await response.json();
+      const data = await getProducts();
       setProducts(data.products);
       setError(null);
     } catch (err: unknown) {
@@ -139,7 +128,7 @@ export default function Products() {
                   {searchTerm || selectedCategory ? (
                     <>
                       {searchTerm && (
-                        <span className="break-words">
+                        <span className="break-word">
                           Searching for: &quot;{searchTerm}&quot;
                         </span>
                       )}

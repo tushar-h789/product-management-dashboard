@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { Loader2, ShoppingBag, Star } from "lucide-react";
 import { FcMinus, FcPlus } from "react-icons/fc";
 import { HiPlusSm } from "react-icons/hi";
-import { Product, Dimensions, Review } from "@/lib/types/products";  
+import { Product, Dimensions, Review } from "@/lib/types/products";
+import { getProductById } from "@/lib/api/products";  
 
 
 
@@ -25,19 +26,15 @@ export default function ProductDetailsPage() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://dummyjson.com/products/${productId}`
-        );
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch product");
-        }
-
-        const data = await res.json();
+        const data = await getProductById(productId);
         setProduct(data);
         setError(null);
       } catch (err) {
-        setError("Something went wrong");
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Something went wrong");
+        }
       } finally {
         setLoading(false);
       }
