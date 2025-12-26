@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Loader2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import ProductCardItem from "@/components/products-page/product-card-item";
+import ProductsGridSkeleton from "@/components/products-page/products-grid-skeleton";
 import { getFeaturedProducts } from "@/lib/api/products";
 import { Product } from "@/lib/types/products";
 
@@ -47,10 +48,10 @@ export default function ProductsSection() {
           </p>
         </div>
 
-        {/* Loading State */}
+        {/* Loading State - Skeleton */}
         {loading && (
-          <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
-            <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-purple-700 animate-spin" />
+          <div className="mb-8 sm:mb-10 md:mb-12">
+            <ProductsGridSkeleton count={8} />
           </div>
         )}
 

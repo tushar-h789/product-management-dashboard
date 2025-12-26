@@ -1,9 +1,10 @@
 // app/products/page.tsx
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { Loader2, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import CategorySidebar from "../../components/products-page/category-sidebar";
 import ProductCardItem from "../../components/products-page/product-card-item";
+import ProductCardSkeleton from "../../components/products-page/product-skeleton";
 import Pagination from "@/components/pagination";
 import SearchInput from "@/components/search-input";
 import { useDebouncedSearch } from "@/hooks/use-debounced-search";
@@ -160,9 +161,12 @@ export default function Products() {
               </div>
             </div>
 
+            {/* Loading State - Skeleton */}
             {loading && (
-              <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
-                <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-purple-700 animate-spin" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {Array.from({ length: 9 }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
+                ))}
               </div>
             )}
 
